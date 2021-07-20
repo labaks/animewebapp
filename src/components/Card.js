@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import './Card.css';
 
 export default function Card(props) {
@@ -10,6 +10,7 @@ export default function Card(props) {
             <span className="rating">{props.elem.score}</span>
             <span className="title">{props.elem.title}</span>
             <a
+                className='moreInfo'
                 href="#"
                 onClick={() => props.onOpenStats(props.elem.mal_id)}>more</a>
         </div>

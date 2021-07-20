@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 import SearchBar from './components/SearchBar';
 import Card from './components/Card';
+
 import { PieChart } from 'react-minimal-pie-chart';
+import { FaTimes } from "react-icons/fa";
 
 export default function App() {
 
@@ -12,6 +14,7 @@ export default function App() {
   const [statsOpen, setStatsOpen] = useState(false);
   const [stats, setStats] = useState();
   const [statsData, setStatsData] = useState();
+  const [currentAnime, setCurrentAnime] = useState();
 
   const _getData = async (search) => {
     let targetUrl = url + "?q=" + search;
@@ -46,17 +49,27 @@ export default function App() {
 
   const openStats = async (id) => {
     let data = await _getStats(id);
+    let res = results.results;
     transformStats(data);
+    console.log("openStats");
+    console.log("results", results);
+    for (var i in res) {
+      if (res[i].mal_id == id) {
+        setCurrentAnime(results.results[i]);
+        
+      }
+    }
+    console.log("current", currentAnime);
     setStatsOpen(true);
   };
 
   const transformStats = (data) => {
     console.log("data", data);
     let arr = [
-      { title: 'Watching', value: parseInt(data.watching), color: "green" },
-      { title: 'Completed', value: parseInt(data.completed), color: "red" },
-      { title: 'Holded', value: parseInt(data.on_hold), color: "blue" },
-      { title: 'Plan to watch', value: parseInt(data.plan_to_watch), color: "orange" },
+      { title: 'Watching', value: parseInt(data.watching), color: "#ee7752" },
+      { title: 'Completed', value: parseInt(data.completed), color: "#e73c7e" },
+      { title: 'Holded', value: parseInt(data.on_hold), color: "#23a6d5" },
+      { title: 'Plan to watch', value: parseInt(data.plan_to_watch), color: "#23d5ab" },
     ]
     setStatsData(arr);
   };
@@ -86,12 +99,32 @@ export default function App() {
         }
         {statsOpen ?
           <div className="stats">
-            <PieChart
-              data={statsData}
-              label={(statsData) => statsData.title} />
+            <div className="pieLine">
+              <div className="pieLegend">
+                {statsData.map(elem => {
+                  return (
+                    <div className="legendItem">
+                      <p>{elem.title}</p>
+                      <b
+                        className="colorBlock"
+                        style={{ background: elem.color }}></b>
+
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="pieHolder">
+                <PieChart
+                  style={{ height: '250px' }}
+                  label={({ dataEntry }) => dataEntry.value}
+                  labelStyle={{ fontSize: '8px', fill: 'white' }}
+                  data={statsData} />
+              </div>
+            </div>
             <button
               className="closeStats"
               onClick={closeStats}>
+              <FaTimes />
             </button>
           </div>
           :

@@ -25,17 +25,67 @@
   margin: 0 auto 20px;
 }
 
-.stats {
-  width: 80%;
-  height: 60vh;
-  background: blue;
-  position: absolute;
-  left: 10%;
-  top: 0;
-}
-
 .resultsWrapper {
   position: relative;
+}
+
+.stats {
+  width: 500px;
+  height: 300px;
+  background: white;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px 1px rgba(0, 0, 0, .3);
+}
+
+.closeStats {
+  position: absolute;
+  background: transparent;
+  border: none;
+  width: 30px;
+  height: 30px;
+  top: 3px;
+  right: 3px;
+}
+
+.pieLine {
+  height: 270px;
+}
+
+.pieHolder {
+  width: 50%;
+  display: inline-block;
+}
+
+.pieLegend {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.legendItem {
+  text-align: right;
+  margin-bottom: 5px;
+}
+
+.legendItem p {
+  display: inline-block;
+  margin: 0 15px 0 0;
+}
+
+.colorBlock {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  border: 2px solid rgba(0, 0, 0, .4);
+  vertical-align: middle;
 }
 
 @media only screen and (max-width: 800px) {
@@ -44,5 +94,15 @@
   }
   .brand {
     top: 20px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .pieLegend, .pieHolder {
+    display: block;
+    width: 100%;
+  }
+  .stats {
+    height: 450px;
+    width: 90%;
   }
 }
