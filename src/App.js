@@ -1,25 +1,37 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
-function App() {
+import SearchBar from './components/SearchBar';
+
+export default function App() {
+
+  const url = 'https://api.jikan.moe/v3/search/anime';
+  let resp = '';
+  const [searchLine, setSearchLine] = useState('');
+
+  const _getData = async (search) => {
+    let targetUrl = url + "?q=" + search;
+    try {
+      const response = await fetch(targetUrl)
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+  const _setData = async (search) => {
+    resp = await _getData(search);
+    console.log("resp", resp)
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchBar
+        value={setSearchLine}
+        onClick={_setData}
+      />
+      <p>{searchLine}</p>
     </div>
   );
 }
-
-export default App;
